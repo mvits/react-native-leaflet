@@ -35,7 +35,7 @@ export default class App extends Component {
   //   this.server.start();
   // }
   path = RNFS.DocumentDirectoryPath + '/www';
-  server = new StaticServer(8080, this.path);
+  server = new StaticServer(3000, this.path);
   state = {
     url: null,
   };
@@ -43,12 +43,16 @@ export default class App extends Component {
 
   moveAndroidFiles() {
     RNFS.mkdir(RNFS.DocumentDirectoryPath + '/www');
-    this.files = ['www/index.html'];
     // this.files.forEach(async file => {
-    RNFS.copyFileAssets(
-      'www/index.html',
-      RNFS.DocumentDirectoryPath + '/' + 'www/index.html',
-    );
+    // RNFS.copyFileAssets(
+    //   'www/index.html',
+    //   RNFS.DocumentDirectoryPath + '/' + 'www/index.html',
+    // );
+
+    RNFS.copyFileAssets('www/index.html', RNFS.DocumentDirectoryPath + '/www/index.html') .then((result) => console.log("cargado html")) .catch((error) => console.log(error));
+    RNFS.copyFileAssets('www/leaflet.css', RNFS.DocumentDirectoryPath + '/www/leaflet.css') .then((result) => console.log("cargado css")) .catch((error) => console.log(error));
+    RNFS.copyFileAssets('www/leaflet.js', RNFS.DocumentDirectoryPath + '/www/leaflet.js') .then((result) => console.log("cargado js")) .catch((error) => console.log(error));
+
     // });
   }
   render() {
@@ -65,12 +69,12 @@ export default class App extends Component {
     // console.log('stiv');
     // console.log(this.path);
     // console.log(this.server);
-    console.log(`${this.state.url}/${this.file}`);
+    // console.log(`${this.state.url}/${this.file}`);
     return (
       <SafeAreaView>
         <View style={{height: '100%', width: '100%'}}>
           <WebView
-            source={{uri: `${this.state.url}/${this.file}`}}
+            source={{uri: "http://10.0.2.15:3000/index.html"}}
             style={{marginTop: 20}}
           />
         </View>
